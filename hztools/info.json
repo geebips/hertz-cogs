@@ -1,0 +1,14 @@
+{
+    "author": [
+        "Hertz#1234"
+    ],
+    "description": "A large collection of API calls for mostly networking, but some other fun things as well.",
+    "hidden": false,
+    "install_msg": "Thank you for installing HzTools!\nSetup your API Keys as well as loading emoji with `[p]setup`",
+    "short": "Hertz Tools",
+    "tags": [
+        "networking",
+        "api",
+        "tools"
+    ]
+}
