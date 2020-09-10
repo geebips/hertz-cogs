@@ -44,9 +44,9 @@ class hztools(commands.Cog):
 			self.session = aiohttp.ClientSession(connector=proxy)
 
 	
-	############################
-	# Commands to set API Keys #
-	############################
+	##############################
+	# Commands for Configuration #
+	##############################
 	@checks.is_owner()
 	@commands.group(pass_context=True) #group
 	async def setup(self, ctx):
