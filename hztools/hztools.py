@@ -64,11 +64,11 @@ class hztools(commands.Cog):
 			await ctx.send(embed=embed)
 		
 	@setup.command(name="setproxyauth")
-	async def _setproxyauth(self, ctx, USER: str, PASS: str):
+	async def _setproxyauth(self, ctx, AUTH: str):
 		"""Set the Proxy Authentication via user:pass. (USE `.setproxyip` FIRST!"""
 		
-		if USER & PASS:
-			await self.config.PROXY_AUTH.set(USER+":"+PASS)
+		if AUTH:
+			await self.config.PROXY_AUTH.set(AUTH)
 			embed=discord.Embed(color=await ctx.embed_color(), title="Proxy authentication set.")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
