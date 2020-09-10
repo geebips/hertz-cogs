@@ -26,7 +26,7 @@ class hztools(commands.Cog):
 
 		# Configuration
 		default_global = {"SHODAN_API_KEY": None, "WR_API_KEY": None, "EMOJI_ID": None, "C99_API_KEY": None, "PROXY_AUTH": None, "PROXY_INFO": None}		
-		self.config = Config.get_conf(self, 2788898764)
+		self.config = Config.get_conf(self, 2788801004)
 		self.config.register_guild(**default_global)
 
 	async def configuration(self) -> None:
@@ -53,22 +53,22 @@ class hztools(commands.Cog):
 		"""Set API Keys for specific websites."""
 
 	@setup.command(name="setproxyip")
-	async def _setproxyip(self, ctx, INFO: str):
+	async def _setproxyip(self, ctx, AUTH: str):
 		"""Set the proxy URL/IP to use, can be used without using `.setproxyauth` if the specified proxy doesn't require credentials."""
 		
-		if INFO:
-			await self.config.PROXY_INFO.set(INFO)
+		if AUTH:
+			await self.config.PROXY_INFO.set(AUTH)
 			embed=discord.Embed(color=await ctx.embed_color(), title="Proxy URL/IP set.")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
 		
 	@setup.command(name="setproxyauth")
-	async def _setproxyauth(self, ctx, AUTH: str):
+	async def _setproxyauth(self, ctx, USER: str, PASS: str):
 		"""Set the Proxy Authentication via user:pass. (USE `.setproxyip` FIRST!"""
 		
-		if AUTH:
-			await self.config.PROXY_AUTH.set(AUTH)
+		if USER & PASS:
+			await self.config.PROXY_AUTH.set(USER+":"+PASS)
 			embed=discord.Embed(color=await ctx.embed_color(), title="Proxy authentication set.")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
@@ -76,7 +76,7 @@ class hztools(commands.Cog):
 
 	@setup.command(name="setemoji")
 	async def _setemoji(self, ctx, EMOJIID: int):
-		"""Set the loading message emoji for showing that a command is loading the results."""
+		"""Set the Embed Emoji."""
 		
 		if EMOJIID:
 			await self.config.EMOJI_ID.set(EMOJIID)
@@ -102,18 +102,18 @@ class hztools(commands.Cog):
 
 		if KEY:
 			await self.config.WR_API_KEY.set(KEY)
-			embed=discord.Embed(color=await ctx.embed_color(), title="API Key set")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Webresolver.nl API Key set")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
 
 	@setup.command(name="setshodanapi", aliases=["setshodan"])
 	async def _setshodanapi(self, ctx, key: str):
-		"""Set the API Key for shodan."""
+		"""Set the API Key for shodan.io."""
 
 		if KEY:
 			await self.config.SHODAN_API_KEY.set(KEY)
-			embed=discord.Embed(color=await ctx.embed_color(), title="API Key Set")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Shodan API Key Set")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -143,7 +143,7 @@ class hztools(commands.Cog):
 	async def _whois(self, ctx, URL: str):
 		"""Get the registration information from a domain."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -166,7 +166,7 @@ class hztools(commands.Cog):
 	async def _icmp(self, ctx, IP: str):
 		"""Shows how long it takes for packets to reach host."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -186,7 +186,7 @@ class hztools(commands.Cog):
 	async def _skype(self, ctx, SKYPE: str):
 		"""If the realtime resolver fails it will show you the last known IP."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -206,7 +206,7 @@ class hztools(commands.Cog):
 	async def _skypedb(self, ctx, SKYPE: str):
 		"""If the realtime resolver fails it will show you the last known IP."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -227,7 +227,7 @@ class hztools(commands.Cog):
 	async def _cloudflare(self, ctx, URL: str):
 		"""Bruteforce on the most common subdomains in order to search for the real IP."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -247,7 +247,7 @@ class hztools(commands.Cog):
 	async def _geoip(self, ctx, INPUT: str):
 		"""Supports Domain, IPv4 and IPv6."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -267,7 +267,7 @@ class hztools(commands.Cog):
 	async def _headers(self, ctx, URL: str):
 		"""Get the website header information from a domain."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -287,7 +287,7 @@ class hztools(commands.Cog):
 	async def _portscan(self, ctx, PORT: str, IP: str):
 		"""Scans a specific port on a defined IP."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -307,7 +307,7 @@ class hztools(commands.Cog):
 	async def _i2s(self, ctx, IP: str):
 		"""Tries to find any websites linked to the IP you entered."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -327,7 +327,7 @@ class hztools(commands.Cog):
 	async def _emailtoskype(self, ctx, EMAIL: str):
 		"""Get all Skype accounts which are connected to a specific email."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -347,7 +347,7 @@ class hztools(commands.Cog):
 	async def _skypetoemail(self, ctx, SKYPE: str):
 		"""Get all emails linked to a Skype account."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -367,7 +367,7 @@ class hztools(commands.Cog):
 	async def _phone(self, ctx, NUMBER: str):
 		"""Looks up information about a specific phone number. (Use international phone format)."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -387,7 +387,7 @@ class hztools(commands.Cog):
 	async def _disposable(self, ctx, EMAIL: str):
 		"""Search through a database with known disposable email servers to check if a domain is disposable."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -407,7 +407,7 @@ class hztools(commands.Cog):
 	async def _domain(self, ctx, URL: str):
 		"""Get all the information from a domain such as: IP history, subdomains & domain score."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -429,7 +429,7 @@ class hztools(commands.Cog):
 	async def _mtr(self, ctx, user_input: str):
 		"""Examine the hops that communication will follow across an IP network."""
 		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No Webresolver.nl Key set... Try `[p]setup setwrapi`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -443,63 +443,6 @@ class hztools(commands.Cog):
 				embed.set_thumbnail(url=self.image)
 				embed.set_footer(text=self.footer, icon_url=self.image)
 				await message.edit(embed=embed)
-	
-
-	####################
-	# Shodan API Calls #
-	####################
-	@commands.command(name="honeyscore", aliases=["honey"])
-	@commands.guild_only()
-	async def _honeyscore(self, ctx, INPUT: str):
-		"""Tells you whether or not said website/IP is a "honeypot" based on score."""
-		shodan_key = await self.config.SHODAN_API_KEY()
-		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
-			embed.set_thumbnail(url=self.image)
-			embed.set_footer(text=self.footer, icon_url=self.image)
-			await ctx.send(embed=embed)
-			return
-		embed=discord.Embed(color=await ctx.embed_color(), title=str(self.emoji))
-		message=await ctx.send(embed=embed)
-		await asyncio.sleep(1)
-		async with ctx.typing():
-			async with self.session.get(self.shodan+'/labs/honeyscore/'+INPUT, params={"key": shodan_key}) as resp:
-				if "401 Unauthorized" in await resp.text():
-					embed2=discord.Embed(color=await ctx.embed_color(), description="API Key is probably invalid or expired, please get a new one or verify that it is correct...")
-					embed.set_thumbnail(url=self.icon)
-					await message.edit(embed=embed2)
-				else:
-					embed=discord.Embed(color=await ctx.embed_color(), title="Honeyscore:", description=await resp.text())
-					embed.set_thumbnail(url=self.icon)
-					await message.edit(embed=embed)
-
-	@commands.command(name="shodandns", aliases=["shodns"])
-	@commands.guild_only()
-	async def _shodns(self, ctx, INPUT: str):
-		"""Tells you whether or not said website/IP is a honeypot based on score."""
-		shodan_key = await self.config.SHODAN_API_KEY()
-		if not self.wr_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
-			embed.set_thumbnail(url=self.image)
-			embed.set_footer(text=self.footer, icon_url=self.image)
-			await ctx.send(embed=embed)
-			return
-
-		embed=discord.Embed(color=await ctx.embed_color(), title=str(self.emoji))
-		message=await ctx.send(embed=embed)
-		async with ctx.typing():
-			async with self.session.get(self.shodan+'/dns/domain/'+INPUT, params={"key": shodan_key}) as resp:
-				if "401 Unauthorized" in await resp.text():
-					embed2=discord.Embed(color=await ctx.embed_color(), description="API Key is probably invalid or expired, please get a new one or verify that it is correct...")
-					await message.edit(embed=embed2)
-				else:
-					data = await resp.json()
-					embed=discord.Embed(color=await ctx.embed_color(), title='Query Results:')
-					embed.set_thumbnail(url=self.image)
-					embed.set_footer(text=self.footer, icon_url=self.image)
-					embed.add_field(name='Domain:', value=data['domain'])
-					embed.add_field(name='Subdomain Info:', value=data['subdomains'][1])
-					await message.edit(embed=embed)  
 
 	####################
 	# C99.nl API Calls #
@@ -509,7 +452,7 @@ class hztools(commands.Cog):
 	async def _nmap(self, ctx, IP: str):
 		"""Scan common ports to see if any are open/closed."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -532,7 +475,7 @@ class hztools(commands.Cog):
 	async def _fakename(self, ctx, GENDER: str):
 		"""Generates fake information to use."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -568,7 +511,7 @@ class hztools(commands.Cog):
 	async def _ytmp3(self, ctx, ID: str):
 		"""Convert a Youtube video to an MP3 by ID."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -587,7 +530,7 @@ class hztools(commands.Cog):
 	async def _btcbalance(self, ctx, ADDRESS: str):
 		"""Checks the current balance of any Bitcoin address."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -608,7 +551,7 @@ class hztools(commands.Cog):
 	async def _etheriumbalance(self, ctx, ADDRESS: str):
 		"""Checks the current balance of any Etherium address."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -629,7 +572,7 @@ class hztools(commands.Cog):
 	async def _screenshot(self, ctx, URL: str):
 		"""Returns a screenshot link of said website."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -655,7 +598,7 @@ class hztools(commands.Cog):
 	async def _gifd(self, ctx, KEYWORD: str):
 		"""Random GIF."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -685,7 +628,7 @@ class hztools(commands.Cog):
 	async def _proxylist(self, ctx, TYPE: str, COUNTRY: str, ANONYMITY: str, LIMIT: int):
 		"""Get a list of fresh http, https, socks4, socks5 proxies."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -707,7 +650,7 @@ class hztools(commands.Cog):
 	async def _checkdomain(self, ctx, DOMAIN: str):
 		"""Checks whether or not a specific domain."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -726,7 +669,7 @@ class hztools(commands.Cog):
 	async def _define(self, ctx, WORD: str):
 		"""Defines specified word."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
@@ -745,7 +688,7 @@ class hztools(commands.Cog):
 	async def _define(self, ctx, INPUT: str, LANG: str):
 		"""Translates specified word/sentence to a specified language ie. EN, use quotes if you're going to translate a sentence."""
 		if not self.c99_key:
-			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No API Key set.")
+			embed=discord.Embed(color=await ctx.embed_color(), title="Error:", description="No C99.nl Key set... Try `[p]setup setc99api`")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
