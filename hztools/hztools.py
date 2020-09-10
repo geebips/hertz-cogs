@@ -54,22 +54,22 @@ class hztools(commands.Cog):
 		"""Set API Keys for specific websites."""
 
 	@setup.command(name="setproxyip")
-	async def _setproxyip(self, ctx, AUTH: str):
-		"""Set the proxy URL/IP to use, can be used without using `.setproxyauth` if the specified proxy doesn't require credentials."""
+	async def _setproxyip(self, ctx, IP: str, PORT: str):
+		"""Set the proxy URL/IP:PORT to use, can be used without using `.setproxyauth` if the specified proxy doesn't require credentials."""
 		
-		if AUTH:
-			await self.config.PROXY_INFO.set(AUTH)
+		if IP:
+			await self.config.PROXY_INFO.set(IP+":"+PORT)
 			embed=discord.Embed(color=await ctx.embed_color(), title="Proxy URL/IP set.")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
 			await ctx.send(embed=embed)
 		
 	@setup.command(name="setproxyauth")
-	async def _setproxyauth(self, ctx, AUTH: str):
+	async def _setproxyauth(self, ctx, USER: str, PASS: str):
 		"""Set the Proxy Authentication via user:pass. (USE `.setproxyip` FIRST!"""
 		
-		if AUTH:
-			await self.config.PROXY_AUTH.set(AUTH)
+		if USER:
+			await self.config.PROXY_AUTH.set(USER+":"+PASS)
 			embed=discord.Embed(color=await ctx.embed_color(), title="Proxy authentication set.")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
