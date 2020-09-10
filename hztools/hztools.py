@@ -26,7 +26,7 @@ class hztools(commands.Cog):
 
 		# Configuration
 		default_global = {"SHODAN_API_KEY": None, "WR_API_KEY": None, "EMOJI_ID": None, "C99_API_KEY": None, "PROXY_AUTH": None, "PROXY_INFO": None}		
-		self.config = Config.get_conf(self, 2788801004)
+		self.config = Config.get_conf(self, 2788898764)
 		self.config.register_guild(**default_global)
 
 	async def configuration(self) -> None:
@@ -53,11 +53,11 @@ class hztools(commands.Cog):
 		"""Set API Keys for specific websites."""
 
 	@setup.command(name="setproxyip")
-	async def _setproxyip(self, ctx, AUTH: str):
+	async def _setproxyip(self, ctx, INFO: str):
 		"""Set the proxy URL/IP to use, can be used without using `.setproxyauth` if the specified proxy doesn't require credentials."""
 		
-		if AUTH:
-			await self.config.PROXY_INFO.set(AUTH)
+		if INFO:
+			await self.config.PROXY_INFO.set(INFO)
 			embed=discord.Embed(color=await ctx.embed_color(), title="Proxy URL/IP set.")
 			embed.set_thumbnail(url=self.image)
 			embed.set_footer(text=self.footer, icon_url=self.image)
@@ -76,7 +76,7 @@ class hztools(commands.Cog):
 
 	@setup.command(name="setemoji")
 	async def _setemoji(self, ctx, EMOJIID: int):
-		"""Set the Embed Emoji."""
+		"""Set the loading message emoji for showing that a command is loading the results."""
 		
 		if EMOJIID:
 			await self.config.EMOJI_ID.set(EMOJIID)
