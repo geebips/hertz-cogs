@@ -2,8 +2,6 @@ import discord
 import asyncio
 import aiohttp
 import json
-import urllib
-from random import randint
 from aiohttp_socks import ProxyType, ProxyConnector, ChainProxyConnector
 from redbot.core import Config, commands, checks
 from redbot.core.utils.chat_formatting import pagify
