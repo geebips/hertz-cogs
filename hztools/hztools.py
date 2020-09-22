@@ -32,10 +32,10 @@ class hztools(commands.Cog):
 		self.c99_key = await self.config.C99_API_KEY()
 		self.wr_key = await self.config.WR_API_KEY()
 		auth, proxyinfo = await self.config.PROXY_AUTH(), await self.config.PROXY_INFO()
+		if not auth and proxyinfo:
+			self.session = aiohttp.ClientSession()
 		if not auth:
-			self.session = aiohttp.ClientSession()
-		if not proxyinfo:
-			self.session = aiohttp.ClientSession()
+			proxy = ProxyConnector.from_url("socks5://@"+proxyinfo)
 		else:
 			proxy = ProxyConnector.from_url("socks5://"+auth+"@"+proxyinfo)
 			self.session = aiohttp.ClientSession(connector=proxy)
