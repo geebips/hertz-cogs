@@ -1,2 +1,2 @@
 # hertz-cogs
-Shitty cogs i've made.
+Shitty cogs that I've made...
