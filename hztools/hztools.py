@@ -36,6 +36,7 @@ class hztools(commands.Cog):
 			self.session = aiohttp.ClientSession()
 		if not auth:
 			proxy = ProxyConnector.from_url("socks5://@"+proxyinfo)
+			self.session = aiohttp.ClientSession()
 		else:
 			proxy = ProxyConnector.from_url("socks5://"+auth+"@"+proxyinfo)
 			self.session = aiohttp.ClientSession(connector=proxy)
